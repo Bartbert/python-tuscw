@@ -147,9 +147,7 @@ class CombatResultsTable:
         if combatant.sp_count in range(7, 8 + 1):
             col_name = 'sp_7_8'
         elif combatant.sp_count in range(9, 12 + 1):
-            col_name = 'sp_2'
-
-        # die_roll = random.randint(1, 6) + random.randint(1, 6) + combatant.get_die_roll_modifier()
+            col_name = 'sp_9_12'
 
         result = self.crt_2.loc[(self.crt_2['2d6_roll_lower'] <= die_roll) & (self.crt_2['2d6_roll_upper'] >= die_roll)]
 
@@ -165,9 +163,6 @@ class CombatResultsTable:
             col_name = 'sp_13_16'
         elif combatant.sp_count >= 17:
             col_name = 'sp_17_up'
-
-        # die_roll = random.randint(1, 6) + random.randint(1, 6) + \
-        #            random.randint(1, 6) + combatant.get_die_roll_modifier()
 
         result = self.crt_3.loc[(self.crt_3['3d6_roll_lower'] <= die_roll) & (self.crt_3['3d6_roll_upper'] >= die_roll)]
 
