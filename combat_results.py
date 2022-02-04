@@ -45,6 +45,20 @@ class CombatResultsTable:
         elif attacker.sp_count >= 13:
             attacker.die_rolls = self.three_dice
 
+        if defender.is_foraging:
+            if defender.sp_count >= 17:
+                defender.sp_count = 16
+            elif defender.sp_count in range(13, 16 + 1):
+                defender.sp_count = 12
+            elif defender.sp_count in range(9, 12 + 1):
+                defender.sp_count = 8
+            elif defender.sp_count in range(7, 8 + 1):
+                defender.sp_count = 6
+            elif defender.sp_count in range(5, 6 + 1):
+                defender.sp_count = 4
+            elif defender.sp_count in range(1, 4 + 1):
+                defender.sp_count -= 1
+
         if defender.sp_count <= 6:
             defender.die_rolls = self.single_die
         elif defender.sp_count in range(7, 12 + 1):
