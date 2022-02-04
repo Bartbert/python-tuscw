@@ -32,6 +32,16 @@ def print_hi():
     print(sum(df.loc[df['battle_result'] == 'defender_victory']['combined_probability']))
     print(sum(df.loc[df['battle_result'] == 'tie']['combined_probability']))
 
+    df_stats = df.groupby(['battle_result'], as_index=False)[
+        'combined_probability'].sum()
+    print(df_stats)
+
+    df_losses_atk = df.groupby(['attacker_losses'], as_index=False)['combined_probability'].sum()
+    print(df_losses_atk)
+
+    df_losses_def = df.groupby(['defender_losses'], as_index=False)['combined_probability'].sum()
+    print(df_losses_def)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

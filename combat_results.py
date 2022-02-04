@@ -56,10 +56,12 @@ class CombatResultsTable:
 
         attacker_die_rolls = []
         attacker_results = []
+        attacker_losses = []
         attacker_probabilities = []
 
         defender_die_rolls = []
         defender_results = []
+        defender_losses = []
         defender_probabilities = []
 
         battle_results = []
@@ -85,10 +87,12 @@ class CombatResultsTable:
 
             attacker_die_rolls.append(attacker_die_roll)
             attacker_results.append(result_attacker)
+            defender_losses.append(int(result_attacker))
             attacker_probabilities.append(attacker_probability)
 
             defender_die_rolls.append(defender_die_roll)
             defender_results.append(result_defender)
+            attacker_losses.append(int(result_defender))
             defender_probabilities.append(defender_probability)
 
             battle_results.append(battle_result)
@@ -97,9 +101,11 @@ class CombatResultsTable:
         results_data = {
             'attacker_die_roll': attacker_die_rolls,
             'attacker_result': attacker_results,
+            'attacker_losses': attacker_losses,
             'attacker_probability': attacker_probabilities,
             'defender_die_roll': defender_die_rolls,
             'defender_result': defender_results,
+            'defender_losses': defender_losses,
             'defender_probability': defender_probabilities,
             'battle_result': battle_results,
             'combined_probability': combined_probabilities
