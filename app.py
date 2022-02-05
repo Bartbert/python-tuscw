@@ -9,6 +9,9 @@ import combat_results as cr
 import combatant
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app.title = 'TUSCW'
+app._favicon = 'static/images/tuscw.png'
+
 server = app.server
 
 crt = cr.CombatResultsTable()
@@ -16,7 +19,7 @@ attacker = combatant.Attacker()
 defender = combatant.Defender()
 
 """Navbar"""
-APP_LOGO = "static/images/tuscw.jpg"
+APP_LOGO = "assets/static/images/tuscw.png"
 
 nav = dbc.Nav(
     [
