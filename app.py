@@ -27,14 +27,14 @@ nav = dbc.Nav(
             [
                 dbc.DropdownMenuItem('GMT Game Page',
                                      href='https://www.gmtgames.com/p-729-the-us-civil-war-2nd-printing.aspx',
-                                     target='blank'),
+                                     target='_blank'),
                 dbc.DropdownMenuItem(divider=True),
                 dbc.DropdownMenuItem('Rules',
                                      href='https://s3-us-west-2.amazonaws.com/gmtwebsiteassets/USCW/TUSCWRULESAug2017-LR.pdf',
-                                     target='blank'),
+                                     target='_blank'),
                 dbc.DropdownMenuItem('Player Aid Card',
                                      href='https://s3-us-west-2.amazonaws.com/gmtwebsiteassets/USCW/TUSCW-PAC-May2017-FINAL.pdf',
-                                     target='blank')],
+                                     target='_blank')],
             label="Useful Resources",
             nav=True
         )
