@@ -8,7 +8,8 @@ import pandas as pd
 import combat_results as cr
 import combatant
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 
 crt = cr.CombatResultsTable()
 attacker = combatant.Attacker()
