@@ -1,5 +1,6 @@
 import combat_results as cr
 import combatant
+import pandas as pd
 
 
 def print_hi():
@@ -7,12 +8,12 @@ def print_hi():
     print(crt.crt_1)
 
     attacker = combatant.Attacker()
-    attacker.sp_count = 3
+    attacker.sp_count = 10
     attacker.leader_modifier = 0
     print(f'\nAttacker SP Count: {attacker.sp_count}')
 
     defender = combatant.Defender()
-    defender.sp_count = 2
+    defender.sp_count = 10
     defender.leader_modifier = 0
 
     attacker = crt.get_result(attacker, 3)
@@ -37,11 +38,20 @@ def print_hi():
     print(df_stats)
 
     df_losses_atk = df.groupby(['attacker_losses'], as_index=False)['combined_probability'].sum()
+    df_losses_atk = df_losses_atk.rename(columns={'attacker_losses': 'Losses'})
+    df_losses_atk['combatant'] = 'Attacker'
     print(df_losses_atk)
 
     df_losses_def = df.groupby(['defender_losses'], as_index=False)['combined_probability'].sum()
+    df_losses_def = df_losses_def.rename(columns={'defender_losses': 'Losses'})
+    df_losses_def['combatant'] = 'Defender'
     print(df_losses_def)
 
+    df_losses = pd.concat([df_losses_atk, df_losses_def], ignore_index=True)
+    print(df_losses)
+
+    print(df_losses.loc[df_losses['combatant'] == 'Attacker']['Losses'])
+    print(df_losses.loc[df_losses['combatant'] == 'Defender']['Losses'])
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

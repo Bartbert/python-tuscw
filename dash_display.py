@@ -4,6 +4,7 @@ from dash import html
 from dash import dcc
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
+import pandas as pd
 import combat_results as cr
 import combatant
 
@@ -74,6 +75,7 @@ attacker_sp_count = html.Div(
     [
         html.P("Attacking SP's:", className="m-0"),
         dbc.Input(type="number", min=0, max=16, step=1, value=1, id="attacker-sp-count"),
+        dbc.FormFeedback("The value you entered is not valid", type="invalid")
     ],
     id="attacker-sp-count-div",
 
@@ -177,8 +179,8 @@ body = html.Div(
                         attacker_leader_mod,
                         html.P(),
                         attacker_options,
-                    ]),
-                        className="p-2 bg-light border rounded-3 border-primary"),
+                    ],
+                        className="p-2 bg-light border rounded-3 border-primary")),
                     dbc.Row(html.Div([html.P(), html.Hr()])),
                     dbc.Row(html.Div([
                         defender_sp_count,
@@ -196,7 +198,11 @@ body = html.Div(
                         dcc.Graph(id='expected-winner', animate=True,
                                   style={'backgroundColor': '#1a2d46', 'color': '#ffffff'})
                     ])),
-                    dbc.Row(html.Div("Expected Losses")),
+                    html.P(),
+                    dbc.Row(html.Div([
+                        dcc.Graph(id='expected-losses', animate=False,
+                                  style={'backgroundColor': '#1a2d46', 'color': '#ffffff'})
+                    ])),
                 ]), width=8),
                 dbc.Col(html.Div(""), width=1),
             ]
@@ -247,6 +253,56 @@ def plot_expected_winner(df_results):
     return {'data': [graph], 'layout': layout}
 
 
+def plot_expected_losses(df_results):
+    df_losses_atk = df_results.groupby(['attacker_losses'], as_index=False)['combined_probability'].sum()
+    df_losses_atk = df_losses_atk.rename(columns={'attacker_losses': 'Losses'})
+    df_losses_atk['combatant'] = 'Attacker'
+
+    df_losses_def = df_results.groupby(['defender_losses'], as_index=False)['combined_probability'].sum()
+    df_losses_def = df_losses_def.rename(columns={'defender_losses': 'Losses'})
+    df_losses_def['combatant'] = 'Defender'
+
+    df_losses = pd.concat([df_losses_atk, df_losses_def], ignore_index=True)
+
+    graph = [
+        go.Bar(
+            x=df_losses.loc[df_losses['combatant'] == 'Attacker']['Losses'],
+            y=df_losses.loc[df_losses['combatant'] == 'Attacker']['combined_probability'],
+            offsetgroup=0,
+            name='Attacker',
+            marker=dict(color='lightgreen'),
+            text=df_losses.loc[df_losses['combatant'] == 'Attacker']['combined_probability'].apply(
+                lambda z: '{0:.0f}%'.format(z * 100))
+        ),
+        go.Bar(
+            x=df_losses.loc[df_losses['combatant'] == 'Defender']['Losses'],
+            y=df_losses.loc[df_losses['combatant'] == 'Defender']['combined_probability'],
+            offsetgroup=1,
+            name='Defender',
+            marker=dict(color='lightblue'),
+            text=df_losses.loc[df_losses['combatant'] == 'Defender']['combined_probability'].apply(
+                lambda z: '{0:.0f}%'.format(z * 100))
+        ),
+    ]
+
+    layout = go.Layout(
+        paper_bgcolor='#27293d',
+        plot_bgcolor='rgba(0,0,0,0)',
+        xaxis=dict(type='category', title='Battle Losses'),
+        yaxis=dict(range=[0, 1], tickformat=".0%", title='Loss Probability'),
+        font=dict(color='white'),
+        title='Expected Battle Losses',
+        transition={'duration': 500, 'easing': 'cubic-in-out'},
+    )
+
+    layout.update(title=dict(x=0.5))
+
+    return go.Figure(
+        data=graph,
+        layout=layout
+    )
+
+
 # Navbar
 @app.callback(
     Output("navbar-collapse", "is_open"),
@@ -259,9 +315,18 @@ def toggle_navbar_collapse(n, is_open):
     return is_open
 
 
+@app.callback(
+    [Output("attacker-sp-count", "invalid")],
+    [Input("attacker-sp-count", "value")],
+)
+def check_attacker_sp_count_validity(value):
+    return True
+
+
 # Expected Battle Outcome Graph
 @app.callback(
     Output('expected-winner', 'figure'),
+    Output('expected-losses', 'figure'),
     [Input('attacker-sp-count', 'value'),
      Input('attacker-leader-mod', 'value'),
      Input('attacker-demoralized', 'value'),
@@ -294,7 +359,10 @@ def update_output(attacker_sp_count_value, attacker_leader_mod_val, attacker_dem
 
     df = crt.analyze_combat(attacker, defender)
 
-    return plot_expected_winner(df_results=df)
+    outcomes = plot_expected_winner(df_results=df)
+    losses = plot_expected_losses(df_results=df)
+
+    return [outcomes, losses]
 
 
 if __name__ == '__main__':
