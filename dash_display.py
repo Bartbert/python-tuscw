@@ -212,25 +212,36 @@ app.layout = html.Div([
 """App Callback"""
 
 
+def rename_winner(battle_result):
+    if battle_result == 'attacker_victory':
+        return 'Attacker Victory'
+    elif battle_result == 'defender_victory':
+        return 'Defender Victory'
+    elif battle_result == 'tie':
+        return 'Tie'
+
+
 def plot_expected_winner(df_results):
     df_stats = df_results.groupby(['battle_result'], as_index=False)['combined_probability'].sum()
 
-    x = list(df_stats['battle_result'])
-    y = list(df_stats['combined_probability'])
+    x = df_stats['battle_result'].apply(lambda z: rename_winner(z))
+    y = df_stats['combined_probability']
 
     graph = go.Bar(
         x=x,
         y=y,
         name='Expected Battle Outcome',
-        marker=dict(color='lightgreen')
+        marker=dict(color='lightgreen'),
+        text=y.apply(lambda z: '{0:.0f}%'.format(z * 100))
     )
 
     layout = go.Layout(
         paper_bgcolor='#27293d',
         plot_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(type='category'),
-        yaxis=dict(range=[0, 1]),
-        font=dict(color='white')
+        xaxis=dict(type='category', title='Battle Outcome'),
+        yaxis=dict(range=[0, 1], tickformat=".0%", title='Outcome Probability'),
+        font=dict(color='white'),
+        title='Expected Battle Outcome'
     )
 
     return {'data': [graph], 'layout': layout}
