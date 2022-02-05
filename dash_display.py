@@ -75,7 +75,6 @@ attacker_sp_count = html.Div(
     [
         html.P("Attacking SP's:", className="m-0"),
         dbc.Input(type="number", min=0, max=16, step=1, value=1, id="attacker-sp-count"),
-        dbc.FormFeedback("The value you entered is not valid", type="invalid")
     ],
     id="attacker-sp-count-div",
 
@@ -313,14 +312,6 @@ def toggle_navbar_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
-
-
-@app.callback(
-    [Output("attacker-sp-count", "invalid")],
-    [Input("attacker-sp-count", "value")],
-)
-def check_attacker_sp_count_validity(value):
-    return True
 
 
 # Expected Battle Outcome Graph
