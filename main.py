@@ -53,6 +53,7 @@ def print_hi():
     print(df_losses.loc[df_losses['combatant'] == 'Attacker']['Losses'])
     print(df_losses.loc[df_losses['combatant'] == 'Defender']['Losses'])
 
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi()
