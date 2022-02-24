@@ -352,6 +352,10 @@ def update_output(attacker_sp_count_value, attacker_leader_mod_val, attacker_dem
     defender.naval_support = defender_naval_support_val
     defender.is_foraging = defender_foraging_val
 
+    print(f'Attacker SP: {attacker.sp_count}, Attacker Mod: {attacker.get_die_roll_modifier()}')
+    print(f'Defender SP: {defender.sp_count}, Defender Mod: {defender.get_die_roll_modifier()}')
+    print('=================================')
+
     df = crt.analyze_combat(attacker, defender)
 
     outcomes = plot_expected_winner(df_results=df)
