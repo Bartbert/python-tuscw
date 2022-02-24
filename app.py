@@ -7,6 +7,7 @@ import plotly.graph_objs as go
 import pandas as pd
 import combat_results as cr
 import combatant
+from dash.exceptions import PreventUpdate
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = 'TUSCW'
@@ -338,6 +339,9 @@ def update_output(attacker_sp_count_value, attacker_leader_mod_val, attacker_dem
                   attacker_special_card_val, attacker_naval_support_val, defender_sp_count_val, defender_leader_mod_val,
                   defender_fortifications_val, defender_behind_mountains_val, defender_behind_river_val,
                   defender_naval_support_val, defender_foraging_val):
+    if (not attacker_sp_count_value) | (not defender_sp_count_val):
+        raise PreventUpdate
+
     attacker.sp_count = attacker_sp_count_value
     attacker.leader_modifier = attacker_leader_mod_val
     attacker.is_demoralized = attacker_demoralized_val
