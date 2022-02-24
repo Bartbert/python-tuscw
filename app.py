@@ -78,7 +78,7 @@ navbar = dbc.Navbar(
 attacker_sp_count = html.Div(
     [
         html.P("Attacking SP's:", className="m-0"),
-        dbc.Input(type="number", min=0, max=16, step=1, value=1, id="attacker-sp-count"),
+        dbc.Input(type="number", min=0, max=18, step=1, value=1, id="attacker-sp-count"),
     ],
     id="attacker-sp-count-div",
 
@@ -120,7 +120,7 @@ attacker_options = html.Div(
 defender_sp_count = html.Div(
     [
         html.P("Defending SP's:", className="m-0"),
-        dbc.Input(type="number", min=0, max=16, step=1, value=1, id="defender-sp-count"),
+        dbc.Input(type="number", min=0, max=18, step=1, value=1, id="defender-sp-count"),
     ],
     id="defender-sp-count-div",
 )
