@@ -31,10 +31,10 @@ nav = dbc.Nav(
                                      target='_blank'),
                 dbc.DropdownMenuItem(divider=True),
                 dbc.DropdownMenuItem('Rules',
-                                     href='https://s3-us-west-2.amazonaws.com/gmtwebsiteassets/USCW/TUSCWRULESAug2017-LR.pdf',
+                                     href='http://talk.consimworld.com/WebX?233@@.1ddabee3!enclosure=.1de35410',
                                      target='_blank'),
                 dbc.DropdownMenuItem('Player Aid Card',
-                                     href='https://s3-us-west-2.amazonaws.com/gmtwebsiteassets/USCW/TUSCW-PAC-May2017-FINAL.pdf',
+                                     href='http://talk.consimworld.com/WebX?233@@.1ddabee3!enclosure=.1de35412',
                                      target='_blank')],
             label="Useful Resources",
             nav=True
