@@ -342,6 +342,15 @@ def update_output(attacker_sp_count_value, attacker_leader_mod_val, attacker_dem
     if (not attacker_sp_count_value) | (not defender_sp_count_val):
         raise PreventUpdate
 
+    if not attacker_leader_mod_val:
+        attacker_leader_mod_val = 0
+
+    if not defender_leader_mod_val:
+        defender_leader_mod_val = 0
+
+    if not defender_fortifications_val:
+        defender_fortifications_val = 0
+
     attacker.sp_count = attacker_sp_count_value
     attacker.leader_modifier = attacker_leader_mod_val
     attacker.is_demoralized = attacker_demoralized_val
