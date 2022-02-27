@@ -339,16 +339,16 @@ def update_output(attacker_sp_count_value, attacker_leader_mod_val, attacker_dem
                   attacker_special_card_val, attacker_naval_support_val, defender_sp_count_val, defender_leader_mod_val,
                   defender_fortifications_val, defender_behind_mountains_val, defender_behind_river_val,
                   defender_naval_support_val, defender_foraging_val):
-    if (not attacker_sp_count_value) | (not defender_sp_count_val):
+    if (attacker_sp_count_value is None) | (defender_sp_count_val is None):
         raise PreventUpdate
 
-    if not attacker_leader_mod_val:
+    if attacker_leader_mod_val is None:
         attacker_leader_mod_val = 0
 
-    if not defender_leader_mod_val:
+    if defender_leader_mod_val is None:
         defender_leader_mod_val = 0
 
-    if not defender_fortifications_val:
+    if defender_fortifications_val is None:
         defender_fortifications_val = 0
 
     attacker.sp_count = attacker_sp_count_value
