@@ -199,7 +199,7 @@ body = html.Div(
                 ]), width=2),
                 dbc.Col(html.Div([
                     dbc.Row(html.Div([
-                        dcc.Graph(id='expected-winner', animate=True,
+                        dcc.Graph(id='expected-winner', animate=False,
                                   style={'backgroundColor': '#1a2d46', 'color': '#ffffff'})
                     ])),
                     html.P(),
@@ -251,7 +251,8 @@ def plot_expected_winner(df_results):
         xaxis=dict(type='category', title='Battle Outcome'),
         yaxis=dict(range=[0, 1], tickformat=".0%", title='Outcome Probability'),
         font=dict(color='white'),
-        title='Expected Battle Outcome'
+        title='Expected Battle Outcome',
+        transition={'duration': 500, 'easing': 'cubic-in-out'},
     )
 
     return {'data': [graph], 'layout': layout}
