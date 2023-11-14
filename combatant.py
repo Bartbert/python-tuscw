@@ -39,14 +39,13 @@ class Defender:
         if self.naval_support:
             drm += 1
 
-        river_defense = 0
         if self.defending_behind_river:
-            river_defense = 1
+            drm += 1
 
         mountain_defense = 0
         if self.defending_behind_mountain:
             mountain_defense = 1
 
-        drm += max(river_defense, mountain_defense, self.fortification_modifier)
+        drm += max(mountain_defense, self.fortification_modifier)
 
         return drm
